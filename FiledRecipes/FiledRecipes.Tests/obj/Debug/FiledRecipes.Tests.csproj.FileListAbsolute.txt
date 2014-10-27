@@ -1,0 +1,2 @@
+C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-3-1-recept-pa-fil\FiledRecipes\FiledRecipes.Tests\obj\Debug\FiledRecipes.Tests.csprojResolveAssemblyReference.cache
+C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S.3-recept-pa-fil\FiledRecipes\FiledRecipes.Tests\obj\Debug\FiledRecipes.Tests.csprojResolveAssemblyReference.cache
