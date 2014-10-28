@@ -34,30 +34,30 @@ namespace FiledRecipes.Views
                 Console.WriteLine(item);
             }
 
+            //DISPLAY ALL INSTRUCTIONS
             Console.WriteLine();
             Console.WriteLine("GÖR SÅ HÄR:");
             Console.WriteLine("===============================");
 
-            //DISPLAY ALL INSTRUCTIONS
             IList<string> instructions = recipe.Instructions.ToList();
             
             foreach(string item in instructions)
             {
                 Console.WriteLine(item);
             }
-
-
-
-
-
-
-
         }
         public void Show(IEnumerable<IRecipe> recipes)
         {
-         
+            List
+
+            foreach (IRecipe rec in recipes)
+            {
+                Console.WriteLine(rec.Name, rec.Ingredients, rec.Instructions);
+            }
+
+            //för varje recept visa dig 
+            RecipeView newRecipe = new RecipeView();
+            newRecipe.ShowHeaderPanel();
         }
-
-
     }
 }

@@ -164,24 +164,25 @@ namespace FiledRecipes.Domain
 
                              case RecipeReadStatus.Ingredient:
                                     string[] ingredientValues = line.Split(';');
-                                    
-                                 
-                                     Ingredient ingredient = new Ingredient();
+
+                                    if (ingredientValues.Length < 2)
+                                    {
+                                        throw new FormatException();
+                                    }
+                                     
+                                    Ingredient ingredient = new Ingredient();
                                      ingredient.Amount = ingredientValues[0];
                                      ingredient.Measure = ingredientValues[1];
                                      ingredient.Name = ingredientValues[2];
 
                                      recipes.Last().Add(ingredient);
 
-                                     if (ingredient.Name == String.Empty)
-                                     {
-                                         throw new FileFormatException();
-                                     }
-                             break;
+                                    
+                                    break;
 
                              case RecipeReadStatus.Instruction:
-                             recipes.Last().Add(line);
-                             break;
+                                 recipes.Last().Add(line);
+                                 break;
                              
                              default:
 
@@ -195,6 +196,11 @@ namespace FiledRecipes.Domain
            {
                Console.WriteLine("Filen finns inte\n{0}", ex.Message);
              
+           }
+           catch (FormatException ex)
+           {
+               Console.WriteLine("Ogiltigt format för ingredienser\n{0}", ex.Message);
+
            }
            catch (Exception ex)
            {
