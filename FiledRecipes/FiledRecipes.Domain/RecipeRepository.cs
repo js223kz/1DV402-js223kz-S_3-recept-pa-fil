@@ -128,19 +128,17 @@ namespace FiledRecipes.Domain
             }
         }
 
-        void IRecipeRepository.Load()
+        public void Load()
         {
             List<IRecipe> recipes = new List<IRecipe>();
             RecipeReadStatus status = RecipeReadStatus.Indefinite;
+            
 
            try
              {
-             // Skapar en StreamReader-objekt och läser rader.
              using (StreamReader reader = new StreamReader(_path))
              {
-                 // Läser filen rad för rad.
                  string line = null;
-                 
                  
                  while ((line = reader.ReadLine()) != null){
                      if (line == SectionRecipe)
@@ -160,50 +158,52 @@ namespace FiledRecipes.Domain
                          switch (status)
                          {
                              case RecipeReadStatus.New:
-                                 Recipe recipe = new Recipe(line);
-                                 recipes.Add(recipe);
-                                 break;
+                                    Recipe recipe = new Recipe(line);
+                                    recipes.Add(recipe);
+                                    break;
 
                              case RecipeReadStatus.Ingredient:
-                                 string[] ingredientValues = line.Split(';');
+                                    string[] ingredientValues = line.Split(';');
+                                    
                                  
+                                     Ingredient ingredient = new Ingredient();
+                                     ingredient.Amount = ingredientValues[0];
+                                     ingredient.Measure = ingredientValues[1];
+                                     ingredient.Name = ingredientValues[2];
 
-                                 if (ingredientValues.Length < 2)
-                                 {
-                                     throw new FileFormatException();
-                                 }
-                                 Ingredient ingredient = new Ingredient();
-                                 ingredient.Amount = ingredientValues[0];
-                                 ingredient.Measure = ingredientValues[1];
-                                 ingredient.Name = ingredientValues[2];
+                                     recipes.Last().Add(ingredient);
 
-                                 recipes.Last().Add(ingredient);
-                                 break;
+                                     if (ingredient.Name == String.Empty)
+                                     {
+                                         throw new FileFormatException();
+                                     }
+                             break;
 
                              case RecipeReadStatus.Instruction:
-                                 recipes.Last().Add(line);
-                                 break;
+                             recipes.Last().Add(line);
+                             break;
+                             
                              default:
 
                                  throw new FileFormatException();
                          }     
                      }
+                   }
                 }
-             }
+           }
+           catch(FileNotFoundException ex)
+           {
+               Console.WriteLine("Filen finns inte\n{0}", ex.Message);
              
            }
            catch (Exception ex)
            {
-             Console.WriteLine("Ett oväntat fel inträffade.\n{0}",
-             ex.Message);
+             Console.WriteLine("Ett oväntat fel inträffade.\n{0}", ex.Message);
             }
           
            
             recipes.TrimExcess();
-            recipes.OrderBy(n => n.Name).ToList();
-           _recipes = recipes;
-
-
+           _recipes = recipes.OrderBy(n => n.Name).ToList();
 
            IsModified = false;
            OnRecipesChanged(EventArgs.Empty);
@@ -211,7 +211,7 @@ namespace FiledRecipes.Domain
          }
        
 
-        void IRecipeRepository.Save()
+        public void Save()
         {
             
         }

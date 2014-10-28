@@ -12,24 +12,49 @@ namespace FiledRecipes.Views
     /// </summary>
     public class RecipeView : ViewBase, IRecipeView
     {
-         
-        void IRecipeView.Show(IRecipe recipe)
-        {
-            
-            RecipeView test = new RecipeView();
-            test.Header = recipe.Name;
-            Console.Clear();
-            test.ShowHeaderPanel();
-           
-           
-            
 
-           
-            
-        }
-        void IRecipeView.Show(IEnumerable<IRecipe> recipes)
+        public void Show(IRecipe recipe)
         {
+
+            //SHOW HEADERPANEL OF CHOOSEN RECIPE
+            RecipeView newRecipe = new RecipeView();
+            newRecipe.Header = recipe.Name;
+            Console.Clear();
+            newRecipe.ShowHeaderPanel();
+
+            //DISPLAY ALL INGREDIENTS
+            Console.WriteLine();
+            Console.WriteLine("INGREDIENSER:");
+            Console.WriteLine("===============================");
+
+            IList<IIngredient> ingredients = recipe.Ingredients.ToList();
+
+            foreach (IIngredient item in ingredients)
+            {
+                Console.WriteLine(item);
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("GÖR SÅ HÄR:");
+            Console.WriteLine("===============================");
+
+            //DISPLAY ALL INSTRUCTIONS
+            IList<string> instructions = recipe.Instructions.ToList();
             
+            foreach(string item in instructions)
+            {
+                Console.WriteLine(item);
+            }
+
+
+
+
+
+
+
+        }
+        public void Show(IEnumerable<IRecipe> recipes)
+        {
          
         }
 
