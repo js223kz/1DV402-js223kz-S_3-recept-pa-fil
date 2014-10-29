@@ -219,7 +219,25 @@ namespace FiledRecipes.Domain
 
         public void Save()
         {
-            
-        }
+
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(_path))
+                {
+                    string line = null;
+                  
+                  line =  writer.WriteLine(_recipes);
+
+                    IsModified = true;
+                    OnRecipesChanged(this, line);
+                        
+                
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine("Ett oväntat fel inträffade.\n{0}", ex.Message);
+            }
+           }
     }
 }

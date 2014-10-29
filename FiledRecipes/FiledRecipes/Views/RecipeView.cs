@@ -40,24 +40,23 @@ namespace FiledRecipes.Views
             Console.WriteLine("===============================");
 
             IList<string> instructions = recipe.Instructions.ToList();
+            int index = 0;
             
-            foreach(string item in instructions)
+            for (index = 0; index < instructions.Count; ++index)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(String.Format("{0}{1}{2}{3}", "<", index + 1, ">\n", instructions[index]));
             }
-        }
+         }
+        
         public void Show(IEnumerable<IRecipe> recipes)
         {
-            List
-
+            //RecipeView newRecipe = new RecipeView();
             foreach (IRecipe rec in recipes)
             {
-                Console.WriteLine(rec.Name, rec.Ingredients, rec.Instructions);
+                Show(rec);
+                ContinueOnKeyPressed();
             }
 
-            //för varje recept visa dig 
-            RecipeView newRecipe = new RecipeView();
-            newRecipe.ShowHeaderPanel();
         }
     }
 }
