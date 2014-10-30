@@ -40,8 +40,6 @@ C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S.3-recept-pa-fil\FiledRecipes\
 C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S.3-recept-pa-fil\FiledRecipes\FiledRecipes\obj\Debug\FiledRecipes.csproj.GenerateResource.Cache
 C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S.3-recept-pa-fil\FiledRecipes\FiledRecipes\obj\Debug\sv-SE\FiledRecipes.resources.dll
 C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\FiledRecipes\bin\Debug\FiledRecipes.exe.config
-C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\FiledRecipes\obj\Debug\FiledRecipes.exe
-C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\FiledRecipes\obj\Debug\FiledRecipes.pdb
 C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\FiledRecipes\bin\Debug\FiledRecipes.exe
 C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\FiledRecipes\bin\Debug\FiledRecipes.pdb
 C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\FiledRecipes\bin\Debug\sv-SE\FiledRecipes.resources.dll
@@ -58,3 +56,5 @@ C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\
 C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\FiledRecipes\obj\Debug\FiledRecipes.Properties.Strings.sv-SE.resources
 C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\FiledRecipes\obj\Debug\FiledRecipes.csproj.GenerateResource.Cache
 C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\FiledRecipes\obj\Debug\sv-SE\FiledRecipes.resources.dll
+C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\FiledRecipes\obj\Debug\FiledRecipes.exe
+C:\Users\Johanna\Documents\GitHub\1DV402-js223kz-S_3-recept-pa-fil\FiledRecipes\FiledRecipes\obj\Debug\FiledRecipes.pdb
