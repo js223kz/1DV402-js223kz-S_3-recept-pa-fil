@@ -138,6 +138,11 @@ namespace FiledRecipes.Domain
              {
              using (StreamReader reader = new StreamReader(_path))
              {
+                 if (!File.Exists(_path))
+                 {
+                     throw new FileNotFoundException();
+                 }
+                 
                  string line = null;
                  
                  while ((line = reader.ReadLine()) != null){
@@ -165,19 +170,17 @@ namespace FiledRecipes.Domain
                              case RecipeReadStatus.Ingredient:
                                     string[] ingredientValues = line.Split(';');
 
+                                    Ingredient ingredient = new Ingredient();
+                                    ingredient.Amount = ingredientValues[0];
+                                    ingredient.Measure = ingredientValues[1];
+                                    ingredient.Name = ingredientValues[2];
+
                                     if (ingredientValues.Length < 2)
                                     {
-                                        throw new FormatException();
+                                         throw new FormatException("Ingrediensens namn saknas");
                                     }
-                                     
-                                    Ingredient ingredient = new Ingredient();
-                                     ingredient.Amount = ingredientValues[0];
-                                     ingredient.Measure = ingredientValues[1];
-                                     ingredient.Name = ingredientValues[2];
 
-                                     recipes.Last().Add(ingredient);
-
-                                    
+                                    recipes.Last().Add(ingredient);
                                     break;
 
                              case RecipeReadStatus.Instruction:
@@ -186,7 +189,7 @@ namespace FiledRecipes.Domain
                              
                              default:
 
-                                 throw new FileFormatException();
+                                 throw new Exception();
                          }     
                      }
                    }
@@ -206,9 +209,10 @@ namespace FiledRecipes.Domain
            {
              Console.WriteLine("Ett oväntat fel inträffade.\n{0}", ex.Message);
             }
-          
-           
-            recipes.TrimExcess();
+
+
+
+           recipes.TrimExcess();
            _recipes = recipes.OrderBy(n => n.Name).ToList();
 
            IsModified = false;
@@ -219,25 +223,31 @@ namespace FiledRecipes.Domain
 
         public void Save()
         {
-
+            
             try
             {
                 using (StreamWriter writer = new StreamWriter(_path))
                 {
-                    string line = null;
-                  
-                  line =  writer.WriteLine(_recipes);
-
-                    IsModified = true;
-                    OnRecipesChanged(this, line);
-                        
-                
+                    
+                    foreach (IRecipe item in _recipes)
+                    {
+                        _recipes.ToString();
+                        writer.WriteLine(item);
+                    }
+                  }
             }
-            catch (Exception ex)
+            catch (FileNotFoundException)
             {
-
-                Console.WriteLine("Ett oväntat fel inträffade.\n{0}", ex.Message);
+                Console.WriteLine("Filen existerar inte");
             }
-           }
+            catch (Exception)
+            {
+                Console.WriteLine("Ett oväntat fel inträffade");
+            }
+            IsModified = true;
+            OnRecipesChanged(EventArgs.Empty);
+
+            IsModified = false;
+       }
     }
 }

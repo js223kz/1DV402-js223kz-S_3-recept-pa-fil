@@ -50,7 +50,6 @@ namespace FiledRecipes.Views
         
         public void Show(IEnumerable<IRecipe> recipes)
         {
-            //RecipeView newRecipe = new RecipeView();
             foreach (IRecipe rec in recipes)
             {
                 Show(rec);
