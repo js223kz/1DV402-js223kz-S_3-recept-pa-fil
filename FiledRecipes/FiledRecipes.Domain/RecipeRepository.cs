@@ -133,108 +133,113 @@ namespace FiledRecipes.Domain
             List<IRecipe> recipes = new List<IRecipe>();
             RecipeReadStatus status = RecipeReadStatus.Indefinite;
 
-             try
-            {
-            using (StreamReader reader = new StreamReader(_path))
-             {
-                 if (!File.Exists(_path))
-                 {
-                     throw new FileNotFoundException();
-                 }
-                 
-                 string line = null;
-                
-                 while ((line = reader.ReadLine()) != null){
-                     
-                     if (line == SectionRecipe){
-                         status = RecipeReadStatus.New;
-                    }
-                     
-                     else if (line == SectionIngredients){
-                         status = RecipeReadStatus.Ingredient;
-                     }
-                     
-                     else if (line == SectionInstructions){
-                         status = RecipeReadStatus.Instruction;
-                     }
-                     
-                     else{
-                     }   
+
+                using (StreamReader reader = new StreamReader(_path))
+                {
+                    
+                    string line = null;
+                    
+                    
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                  
+                        
+                        if (line == String.Empty)
+                        {
+                            continue;
+                        }
+                        if (line == SectionRecipe)
+                        {
+                            status = RecipeReadStatus.New;
+                           
+                        }
+                        else if (line == SectionIngredients)
+                        {
+                            status = RecipeReadStatus.Ingredient;
+                            
+                        }
+                        else if (line == SectionInstructions)
+                        {
+                            status = RecipeReadStatus.Instruction;
+                            
+                        }
+                        else{
                         
                          switch (status)
                          {
                              case RecipeReadStatus.New:
-                                    Recipe recipe = new Recipe(line);
-                                    recipes.Add(recipe);
-                                    break;
+                                 
+                                 Recipe recipe = new Recipe(line);
+                                 recipes.Add(recipe);
+                                 break;
 
                              case RecipeReadStatus.Ingredient:
-                                    string[] ingredientValues = line.Split(';');
-
+                                 string[] ingredientValues = line.Split(new char[] { ';' });
+                                
+                                if (ingredientValues.Length != 3)
+                                {
+                                    throw new FileFormatException();
+                                }
+                                else{
                                     Ingredient ingredient = new Ingredient();
                                     ingredient.Amount = ingredientValues[0];
                                     ingredient.Measure = ingredientValues[1];
                                     ingredient.Name = ingredientValues[2];
 
-                                    if (ingredientValues.Length != 3)
-                                    {
-                                        throw new FileFormatException();
-                                    }
-                                    
                                     recipes.Last().Add(ingredient);
-                                    break;
+                                }   
+                                break;
 
                              case RecipeReadStatus.Instruction:
-                                 recipes.Last().Add(line);
-                                 break;
-                         }     
-                     }
-                   }
-                }
-           
-           catch(FileNotFoundException)
-           {
-               throw new FileNotFoundException();
-           }
-             catch (FileFormatException)
-             {
-                 throw new FileFormatException();
-             }
-             catch (Exception ex)
-             {
-                 Console.WriteLine("Ett oväntat fel inträffade.\n{0}", ex.Message);
-             }
-
-            recipes.TrimExcess();
-
-           _recipes = recipes.OrderBy(n => n.Name).ToList();
-
-           IsModified = false;
-           OnRecipesChanged(EventArgs.Empty);
-          }
-       
-         public void Save()
-        {
-            try
-            {
-                using (StreamWriter writer = new StreamWriter(_path))
-                {
-                    foreach (IRecipe item in _recipes)
-                    {
-                        _recipes.ToString();
-                        writer.WriteLine(item);
+                                recipes.Last().Add(line); 
+                                break;
+                         }
                     }
-                  }
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine("Filen existerar inte");
-            }
-           
-            IsModified = true;
-            OnRecipesChanged(EventArgs.Empty);
+                }
+             }    
+            recipes.TrimExcess();
+            
+            _recipes = recipes.OrderBy(n => n.Name).ToList();
 
             IsModified = false;
-       }
+            OnRecipesChanged(EventArgs.Empty);
+               
+    }
+        public void Save()
+        {
+             using (StreamWriter writer = new StreamWriter(_path))
+                {
+                    int index = 0;
+                    foreach (IRecipe rec in _recipes)
+                    {
+                        writer.WriteLine(SectionRecipe);
+                        writer.WriteLine(rec.Name);
+                        
+                        foreach (IRecipe ing in _recipes)
+                        {
+                            writer.WriteLine(SectionIngredients);
+                            writer.WriteLine(ing.Ingredients);
+                        }
+                        foreach (IRecipe inst in _recipes)
+                        {
+                            writer.WriteLine(SectionInstructions);
+                            for (index = 0; index < _recipes.Count; ++index)
+                            {
+                                if(index == 0 || index == 1){
+                                    Console.WriteLine(String.Format("{0}{1}", inst.Instructions,";"));
+                                }
+                                else
+                                {
+                                    Console.WriteLine(inst.Instructions);
+                                }  
+                            }
+                        }
+                    }
+                }
+           
+            IsModified = false;
+            OnRecipesChanged(EventArgs.Empty);
+            
+        }
     }
 }
