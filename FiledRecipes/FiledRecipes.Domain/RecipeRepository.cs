@@ -143,11 +143,11 @@ namespace FiledRecipes.Domain
                     while ((line = reader.ReadLine()) != null)
                     {
                   
-                        
                         if (line == String.Empty)
                         {
                             continue;
                         }
+                        
                         if (line == SectionRecipe)
                         {
                             status = RecipeReadStatus.New;
@@ -207,39 +207,37 @@ namespace FiledRecipes.Domain
     }
         public void Save()
         {
-             using (StreamWriter writer = new StreamWriter(_path))
+            using (StreamWriter writer = new StreamWriter(_path))
+            {
+                int i = 0;
+                foreach (var rec in _recipes)
                 {
-                    int index = 0;
-                    foreach (IRecipe rec in _recipes)
+                    writer.WriteLine(SectionRecipe);
+                    writer.WriteLine(rec.Name);
+                    
+                    writer.WriteLine(SectionIngredients);
+                    
+                        foreach (var ing in rec.Ingredients)
+                        {
+                            writer.WriteLine(ing.Amount + ";" + ing.Measure + ";" + ing.Name);
+                           
+                        }
+                    
+                    writer.WriteLine(SectionInstructions);
+
+                   
+                    foreach (var inst in rec.Instructions)
                     {
-                        writer.WriteLine(SectionRecipe);
-                        writer.WriteLine(rec.Name);
-                        
-                        foreach (IRecipe ing in _recipes)
-                        {
-                            writer.WriteLine(SectionIngredients);
-                            writer.WriteLine(ing.Ingredients);
-                        }
-                        foreach (IRecipe inst in _recipes)
-                        {
-                            writer.WriteLine(SectionInstructions);
-                            for (index = 0; index < _recipes.Count; ++index)
-                            {
-                                if(index == 0 || index == 1){
-                                    Console.WriteLine(String.Format("{0}{1}", inst.Instructions,";"));
-                                }
-                                else
-                                {
-                                    Console.WriteLine(inst.Instructions);
-                                }  
-                            }
-                        }
+                        writer.WriteLine(inst);
+
                     }
+                    
+                   
                 }
-           
+            }
+
             IsModified = false;
             OnRecipesChanged(EventArgs.Empty);
-            
         }
     }
 }
